@@ -132,7 +132,7 @@ export default function CoustomerRegister() {
           </div>
           <div className="lh-copy mt3">
             <Link to="/login" className="f6 link dim black db">
-              Sign In
+              <strong>Sign In</strong>
             </Link>
           </div>
         </form>

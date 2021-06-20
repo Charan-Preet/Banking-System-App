@@ -32,6 +32,8 @@ mongoose.connect(
     }
 );
 
+
+
 app.use('/', require('./routes/coustomer'))
-app.use('/admin',require('./routes/admin'))
-app.use('/agent',require('./routes/agents'))
+app.use('/admin', require('./routes/admin'))
+app.use('/agent', require('./routes/agents'))
