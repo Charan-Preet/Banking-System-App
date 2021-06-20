@@ -6,11 +6,18 @@ import AuthContext from "../../context/Coustomer-auth";
 
 export default function CoustomerLogin() {
   const [email, setEmail] = useState("");
+  const [checklogin,setChecklogin] = useState()
   const [password, setPassword] = useState("");
   const [errorMessage, seterrorMessage] = useState("");
-  
+
   const { getLoggedIn } = useContext(AuthContext);
+  const { loggedIn } = useContext(AuthContext)
   const history = useHistory();
+
+  useEffect(async () => {
+    await getLoggedIn()
+    setChecklogin(loggedIn)
+  })
 
   function displayError() {
     if (errorMessage)
@@ -38,49 +45,59 @@ export default function CoustomerLogin() {
     }
   }
 
-  return (
-    <main className="pa4 black-80 pb5 mt6">
-      <form className="measure center" onSubmit={login}>
-        <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
-          <legend className="f4 fw6 ph0 mh0 mt6 center underline">Login</legend>
-          {displayError()}
-          <div className="mt3">
-            <label className="db fw6 lh-copy f6" for="email-address">
-              Email
-            </label>
-            <input
-              className="br2 pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
-              type="email"
-              name="email-address"
-              id="email-address"
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-          <div className="mv3">
-            <label className="db fw6 lh-copy f6" for="password">
-              Password
-            </label>
-            <input
-              className="br2 pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
-              type="password"
-              name="password"
-              id="password"
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
+  function redirect() {
+    setTimeout(() => {
+      history.push('/')
+    }, 3000)
+  }
 
-          <label className="pa0 ma0 lh-copy f6 pointer">
-            <input type="checkbox" /> Remember me
-          </label>
-        </fieldset>
-        <div className="">
-          <input
-            className="br2 b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
-            type="submit"
-            value="Login"
-          />
-        </div>
-      </form>
-    </main>
+  return (
+    loggedIn ?
+      <div className='mt6 mid-gray tc center'>You are Already loggedIn as Coustomer Redirecting you to Homepage...
+        {redirect()}
+      </div> :
+      <main className="pa4 black-80 pb5 mt6">
+        <form className="measure center" onSubmit={login}>
+          <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
+            <legend className="f4 fw6 ph0 mh0 mt6 center underline">Login</legend>
+            {displayError()}
+            <div className="mt3">
+              <label className="db fw6 lh-copy f6" for="email-address">
+                Email
+              </label>
+              <input
+                className="br2 pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
+                type="email"
+                name="email-address"
+                id="email-address"
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+            <div className="mv3">
+              <label className="db fw6 lh-copy f6" for="password">
+                Password
+              </label>
+              <input
+                className="br2 pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
+                type="password"
+                name="password"
+                id="password"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+
+            <label className="pa0 ma0 lh-copy f6 pointer">
+              <input type="checkbox" /> Remember me
+            </label>
+          </fieldset>
+          <div className="">
+            <input
+              className="br2 b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
+              type="submit"
+              value="Login"
+            />
+          </div>
+        </form>
+      </main>
   );
 }

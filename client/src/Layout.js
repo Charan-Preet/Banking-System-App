@@ -12,7 +12,7 @@ export default function Layout() {
     await getLoggedIn()
     setCheck(loggedIn)
   })
-  console.log(check)
+
   return (
     <div className="w-100 pa5 mt6 tc sans-serif">
       <article className="center mw5 mw6-ns hidden ba mv4 br2 shadow-2">
@@ -47,7 +47,7 @@ export default function Layout() {
               <div className="ph3 tc">
                 <Link
                   className="shadow-3 f6 grow no-underline br-pill ph4 pv2 mb2 dib white bg-hot-pink"
-                  to="/loanreq"
+                  to="/loandetails"
                 >
                   Check Previous Loan Request
                 </Link>

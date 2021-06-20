@@ -7,11 +7,12 @@ function AuthContextProvider(props) {
   const [loggedIn, setLoggedIn] = useState(undefined);
 
   async function getLoggedIn() {
-
-    const loggedInRes = await axios.get(
-      "http://localhost:8080/loggedIn"
-    );
-    setLoggedIn(loggedInRes.data);
+    try {
+      const loggedInRes = await axios.get(
+        "http://localhost:8080/loggedIn"
+      );
+      setLoggedIn(loggedInRes.data);
+    } catch (error) { console.error(error) }
   }
 
   useEffect(() => {

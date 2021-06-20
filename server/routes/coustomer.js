@@ -57,12 +57,13 @@ router.post("/register", async (req, res) => {
     const token = jwt.sign(
       {
         coustomer: savedCoustomer._id,
+        isCoustomer: true
       },
       process.env.JWT_SECRET
     );
     // send the token in a HTTP-only cookie
     res
-      .cookie("coustomerToken", token, {
+      .cookie("token", token, {
         httpOnly: true,
         secure: true,
         sameSite: "none",
@@ -102,13 +103,14 @@ router.post("/login", async (req, res) => {
     const token = jwt.sign(
       {
         coustomer: existingCoustomer._id,
+        isCoustomer: true
       },
       process.env.JWT_SECRET
     );
 
     // send the token in a HTTP-only cookie
     res
-      .cookie("coustomerToken", token, {
+      .cookie("token", token, {
         httpOnly: true,
         secure: true,
         sameSite: "none",
@@ -121,7 +123,7 @@ router.post("/login", async (req, res) => {
 
 router.get("/logout", (req, res) => {
   res
-    .cookie("coustomerToken", "", {
+    .cookie("token", "", {
       httpOnly: true,
       expires: new Date(0),
       secure: true,
@@ -132,29 +134,29 @@ router.get("/logout", (req, res) => {
 //middleware to check wheather user is logged in or not
 router.get("/loggedIn", async (req, res) => {
   try {
-    const token = req.cookies.coustomerToken;
+    const token = req.cookies.token;
     if (!token) return res.send(false);
     const verified = jwt.verify(token, process.env.JWT_SECRET);
-    if (!verified) return res.send(false)
+    if (!verified) res.send(false)
+    if (verified.isCoustomer === true) {
+      res.send(true)
 
-    const findUser = await Coustomer.findById(verified.coustomer);
-    if (!findUser) return res.send(false)
-    if (findUser.isAdmin === false && findUser.isAgent === false) res.send(true)
+    } else res.send(false)
   } catch {
-    res.json(false);
+    res.send(false);
   }
 });
 
 router.get("/loanrequest", (req, res) => {
   try {
-    const token = req.cookies.coustomerToken;
-    if (!token) return res.json({ errorMessage: "User Not LoggedIn" });
+    const token = req.cookies.token;
+    if(!token)  res.json({errorMessage:"NO token present"})
     const verified = jwt.verify(token, process.env.JWT_SECRET);
-    if (verified)
-      Coustomer.findById(verified.coustomer, (error, data) => {
-        if (error) res.status(404).json(error);
-        else res.json(data);
-      });
+    if(!verified) res.json({msg:"You are not a valid coustomer"})
+    Coustomer.findById(verified.coustomer, (error, data) => {
+      if (error) res.json(error);
+      else res.json(data.loan);
+    });
   } catch (err) {
     res.json(err);
   }

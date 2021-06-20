@@ -1,29 +1,30 @@
 import axios from "axios";
 import React, { createContext, useEffect, useState } from "react";
 
-const AuthContext = createContext();
+const AgentAuthContext = createContext();
 
-function AuthContextProvider(props) {
-  const [loggedIn, setLoggedIn] = useState(undefined);
+function AgentAuthContextProvider(props) {
+  const [AgentloggedIn, setAgentLoggedIn] = useState(undefined);
 
-  async function getLoggedIn() {
-
-    const loggedInRes = await axios.get(
-      "http://localhost:8080/loggedIn"
-    );
-    setLoggedIn(loggedInRes.data);
+  async function AgentgetLoggedIn() {
+    try {
+      const loggedInRes = await axios.get(
+        "http://localhost:8080/agent/loggedIn"
+      );
+      setAgentLoggedIn(loggedInRes.data);
+    } catch (err) { console.error(err) }
   }
 
   useEffect(() => {
-    getLoggedIn();
+    AgentgetLoggedIn();
   }, []);
 
   return (
-    <AuthContext.Provider value={{ loggedIn, getLoggedIn }}>
+    <AgentAuthContext.Provider value={{ AgentloggedIn, AgentgetLoggedIn }}>
       {props.children}
-    </AuthContext.Provider>
+    </AgentAuthContext.Provider>
   );
 }
 
-export default AuthContext;
-export { AuthContextProvider };
+export default AgentAuthContext;
+export { AgentAuthContextProvider };

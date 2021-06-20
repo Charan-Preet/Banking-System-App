@@ -1,11 +1,12 @@
 import axios from "axios";
 import { Link, useHistory } from "react-router-dom";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import AuthContext from '../../context/Coustomer-auth'
 import "./registerStyle.css";
 
 export default function CoustomerRegister() {
   const [user, setUser] = useState("");
+  const [checklogin, setChecklogin] = useState()
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordVerify, setPasswordVerify] = useState("");
@@ -14,6 +15,11 @@ export default function CoustomerRegister() {
   const { getLoggedIn } = useContext(AuthContext);
   const { loggedIn } = useContext(AuthContext);
   const history = useHistory();
+
+  useEffect(async () => {
+    await getLoggedIn()
+    setChecklogin(loggedIn)
+  })
 
   function displayError() {
     if (errorMessage)
@@ -43,14 +49,16 @@ export default function CoustomerRegister() {
     }
   }
 
+  function redirect() {
+    setTimeout(() => {
+      history.push('/')
+    }, 3000)
+  }
   return (
-    loggedIn ? <div>
-      <h3 className='tc light-grey mt6'>
-        Your Are Already Registered redirecting you to Homepage..
-      </h3>
-      {setTimeout(() => {history.push('/')}, 4000)}
-    </div>
-      :
+    loggedIn ?
+      <div className='mt6 mid-gray tc center'>You are Already loggedIn as Coustomer Redirecting you to Homepage...
+        {redirect()}
+      </div> :
       <main className="pa4 black-80 pb5 mt5">
         <form className="measure center" onSubmit={register}>
           <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
