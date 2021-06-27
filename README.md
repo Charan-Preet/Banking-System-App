@@ -1,4 +1,4 @@
-# Loan-App
+# Banking System Loan App
 ## Steps to run website on your Local Machine:
 1. Inside your terminal do `git clone https://github.com/Charan-Preet/Loan-App.git`.
 2. Now, inside `client` folder do `npm install`.
