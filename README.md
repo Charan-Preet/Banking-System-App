@@ -7,7 +7,7 @@
 5. After that do `node server.js`.
 
 ## About this project:
-### This app is created as assignment for the internship process at [RedCarpet](https://www.redcarpetup.com/)
+### This app is created as assignment for the intern role at [RedCarpet](https://www.redcarpetup.com/)
 #### The Problem Statement are:
 1.  Registration and Roles - Different users can have different roles. The three roles are "customer", "agent" and "admin". We want to see how you are creating/salting/hashing the passwords. Another question to think about is - how will you set the role of a user ? All of these are questions you should think about. 
 2. Your api needs to be protected by authentication.  For all the  API you will build, design an auth system. We want to see how you do this. Will you use a token? a username/password ?  Are you using JWT? remember that for API, you cant have cookies. How will you handle roles in an API? Will you only ask for authentication once or will every api call be authenticated. All of these are questions you should think about.
